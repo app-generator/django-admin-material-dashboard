@@ -51,6 +51,7 @@
       {% endif %}
 
         <li class="nav-item">
+
             {% if request.user.is_superuser %}
             <a href="{% url 'admin:index' %}" class="nav-link text-white {% if 'index' in segment %} active {% endif %}">
             {% else %}
@@ -150,7 +151,8 @@
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
-        <a class="btn bg-gradient-primary mt-4 w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+        <a class="btn bg-gradient-primary mt-4 w-100" 
+           href="https://appseed.us/support/" type="button">Support</a>
       </div>
     </div>
   </aside>
