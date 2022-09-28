@@ -1,4 +1,4 @@
-# [[Django Admin Material](https://pypi.org/project/django-admin-material-dashboard/) Dashboard
+# [Django Admin Material](https://pypi.org/project/django-admin-material-dashboard/) Dashboard
 
 Modern template for **Django Admin Interface** coded on top of **[Material Dashboard](https://www.creative-tim.com/product/material-dashboard?AFFILIATE=128200)** (free version). 
 
