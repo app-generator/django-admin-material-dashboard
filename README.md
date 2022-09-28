@@ -4,7 +4,11 @@ Modern template for **Django Admin Interface** coded on top of **[Material Dashb
 
 > UI Kit: [Material Dashboard](https://github.com/creativetimofficial/material-dashboard) **v3.0.4**
 
-<br>
+<br />
+
+![Django Admin Material Dashboard - Edit users page.](https://user-images.githubusercontent.com/51070104/192813418-8738c303-b550-4e2c-bb8d-281376504cf4.jpg)
+
+<br />
 
 ## Why Django Material Dashboard?
 
@@ -71,7 +75,11 @@ Access the `admin` section in the browser: `http://127.0.0.1:8000/`
 
 ## Screenshots
 
-@Todo
+![Django Admin Material Dashboard - Admin dashboard page.](https://user-images.githubusercontent.com/51070104/192813541-14f0eb32-fdbf-415b-ad67-07364784a133.jpg)
+
+<br />
+
+![Django Admin Material Dashboard - New User Page.](https://user-images.githubusercontent.com/51070104/192813655-8772ae21-b707-42a4-b2ba-15d648bf2768.jpg) 
 
 ---
 **Django Admin Material Dashboard** - Open-source Admin THEME provided by **[AppSeed](https://appseed.us/)**
