@@ -2,7 +2,7 @@
 
 Modern template for **Django Admin Interface** coded on top of **[Material Dashboard](https://www.creative-tim.com/product/material-dashboard?AFFILIATE=128200)** (free version). 
 
-> UI Kit: [Material Dashboard](https://github.com/creativetimofficial/material-dashboard) **v3.0.4**
+> UI Kit: [Material Dashboard](https://github.com/creativetimofficial/material-dashboard) **v3.0.4** designed by `Creative-Tim`
 
 <br />
 
