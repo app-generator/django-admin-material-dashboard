@@ -36,7 +36,7 @@ $ pip install git+https://github.com/app-generator/django-admin-material-dashboa
 ```python
     INSTALLED_APPS = (
         ...
-        'admin_material.apps.AdminMaterialDashConfig',
+        'admin_material.apps.AdminMaterialDashboardConfig',
         'django.contrib.admin',
     )
 ```
