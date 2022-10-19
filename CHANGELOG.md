@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.1] 2022-10-19
+### Improvements
+
+- README Update
+
 ## [1.0.0] 2022-10-19
 ### Improvements
 
