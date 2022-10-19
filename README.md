@@ -82,13 +82,13 @@ Access the `admin` section in the browser: `http://127.0.0.1:8000/`
 
 > **Material Dashboard Theme** - `Admin Section` 
 
-![Django Admin Material Dashboard - Admin dashboard page.](https://user-images.githubusercontent.com/51070104/192813541-14f0eb32-fdbf-415b-ad67-07364784a133.jpg)
+![Django Admin Material Dashboard - Admin dashboard page.](https://user-images.githubusercontent.com/51070104/196743760-6e0e1930-8233-421c-ac53-d65c273b00dc.png)
 
 <br />
 
 > **Material Dashboard Theme** - `Admin Widgets`
 
-![Django Admin Material Dashboard - New User Page.](https://user-images.githubusercontent.com/51070104/192813655-8772ae21-b707-42a4-b2ba-15d648bf2768.jpg) 
+![Django Admin Material Dashboard - New User Page.](https://user-images.githubusercontent.com/51070104/196743821-2e140dd8-fe15-4615-9e9f-0467900b1a1b.png)
 
 <br />
 
