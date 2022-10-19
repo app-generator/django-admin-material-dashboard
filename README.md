@@ -1,25 +1,30 @@
-# [Django Admin Material](https://pypi.org/project/django-admin-material-dashboard/) Dashboard
+# [Django Admin Material](https://github.com/app-generator/django-admin-material-dashboard)
 
-Modern template for **Django Admin Interface** coded on top of **[Material Dashboard](https://www.creative-tim.com/product/material-dashboard?AFFILIATE=128200)** (free version). 
+Modern template for **Django Admin Interface** coded on top of **Material Dashboard**, an open-source `Boostrap 5` design from `Creative-Tim`.
 
-> UI Kit: [Material Dashboard](https://github.com/creativetimofficial/material-dashboard) **v3.0.4** designed by `Creative-Tim`
-
-<br />
-
-![Django Admin Material Dashboard - Edit users page.](https://user-images.githubusercontent.com/51070104/192813418-8738c303-b550-4e2c-bb8d-281376504cf4.jpg)
-
-<br />
-
-## Why Django Material Dashboard?
-
-- Bootstrap 5 Design (Free version) provided by **Creative-Tim**
-- New fresh look
-- Responsive mobile interface
-- Useful admin home page
-- Minimal template overriding
-- Easy integration
+> Actively supported by [AppSeed](https://appseed.us/) via `Email` and `Discord`.
 
 <br>
+
+**Links & Resources**
+
+- [Django Material Dashboard](https://appseed.us/product/material-dashboard/django/) - free starter with the same design
+- [Django Material Dashboard](https://django-material-dashboard.appseed-srv1.com/) - LIVE Demo
+
+<br />
+
+![Django Admin Material Dashboard - Edit users page.](https://user-images.githubusercontent.com/51070104/169301658-6cf27993-c451-4cd4-9ffa-2968b8981167.png)
+
+<br>
+
+## Why `Django Admin Material`
+
+- Modern `Bootstrap 5` Design
+- `Responsive Interface`
+- `Minimal Template` overriding
+- `Easy integration`
+
+<br />
 
 ## How to use it
 
@@ -75,11 +80,17 @@ Access the `admin` section in the browser: `http://127.0.0.1:8000/`
 
 ## Screenshots
 
+> **Material Dashboard Theme** - `Admin Section` 
+
 ![Django Admin Material Dashboard - Admin dashboard page.](https://user-images.githubusercontent.com/51070104/192813541-14f0eb32-fdbf-415b-ad67-07364784a133.jpg)
 
 <br />
 
+> **Material Dashboard Theme** - `Admin Widgets`
+
 ![Django Admin Material Dashboard - New User Page.](https://user-images.githubusercontent.com/51070104/192813655-8772ae21-b707-42a4-b2ba-15d648bf2768.jpg) 
 
+<br />
+
 ---
-**Django Admin Material Dashboard** - Open-source Admin THEME provided by **[AppSeed](https://appseed.us/)**
+**[Django Admin Material](https://github.com/app-generator/django-admin-material-dashboard)** - Modern Admin Interface provided by **[AppSeed](https://appseed.us/)**
