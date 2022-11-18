@@ -14,9 +14,13 @@ Modern template for **Django Admin Interface** coded on top of **Material Dashbo
 
 <br />
 
-![Django Admin Material Dashboard - Edit users page.](https://user-images.githubusercontent.com/51070104/169301658-6cf27993-c451-4cd4-9ffa-2968b8981167.png)
+## [Black Friday 2022](https://appseed.us) - `75%OFF`
 
-<br>
+> The campaign is active until `30.NOV` and applies to all products and licenses.
+
+[![AppSeed - Black Friday 2022 Campaign, 75% OFF Discount (all products).](https://user-images.githubusercontent.com/51070104/201829599-9fe6bdd7-3f19-46f3-9115-962eeb13bf29.jpg)](https://appseed.us)
+
+<br />
 
 ## Why `Django Admin Material`
 
