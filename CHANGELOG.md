@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.3] 2022-11-18
+### Improvements
+
+- README Update
+
 ## [1.0.2] 2022-11-18
 ### PROMO
 
