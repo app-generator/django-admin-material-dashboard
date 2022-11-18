@@ -8,6 +8,7 @@ Modern template for **Django Admin Interface** coded on top of **Material Dashbo
 
 **Links & Resources**
 
+- UI Kit: [Material Dashboard BS5](https://www.creative-tim.com/product/material-dashboard?AFFILIATE=128200) `v3.0.5` by Creative-Tim
 - [Django Material Dashboard](https://appseed.us/product/material-dashboard/django/) - free starter with the same design
 - [Django Material Dashboard](https://django-material-dashboard.appseed-srv1.com/) - LIVE Demo
 
