@@ -57,6 +57,29 @@ $ pip install git+https://github.com/app-generator/django-admin-material-dashboa
 
 <br />
 
+> Add `LOGIN_REDIRECT_URL` and `EMAIL_BACKEND` of your Django project `settings.py` file:
+
+```python
+    LOGIN_REDIRECT_URL = '/'
+    # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```
+
+<br />
+
+> Add `admin_material` urls in your Django Project `urls.py` file
+
+```python
+    from django.urls import path, include
+
+    urlpatterns = [
+        ...
+        path('', include('admin_material.urls')),
+    ]
+```
+
+<br />
+
 > **Collect static** if you are in `production environment`:
 
 ```bash

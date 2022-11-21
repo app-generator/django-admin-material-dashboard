@@ -21,17 +21,35 @@
       </div>
       <ul class="navbar-nav  justify-content-end">
 
-        <li class="nav-item d-flex align-items-center">
+        {% if request.user.is_authenticated %}
 
-          {% if request.user.is_superuser %}
-          <a href="{% url 'admin:logout' %}" class="nav-link text-body font-weight-bold px-0">
-          {% else %}
-          <a href="{% url 'logout' %}" class="nav-link text-body font-weight-bold px-0">
-          {% endif %}
-            <i class="fa fa-user me-sm-1"></i>
-            <span class="d-sm-inline d-none me-3">Logout</span>
-          </a>
-        </li>
+          <li class="nav-item d-flex align-items-center">
+            {% if request.user.is_superuser %}
+            <a href="{% url 'admin:logout' %}" class="nav-link text-body font-weight-bold px-0">
+            {% else %}
+            <a href="{% url 'logout' %}" class="nav-link text-body font-weight-bold px-0">
+            {% endif %}
+              <i class="fa fa-user me-sm-1"></i>
+              <span class="d-sm-inline d-none me-3">Logout</span>
+            </a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            {% if request.user.is_superuser %}
+            <a href="{% url 'admin:password_change' %}" class="nav-link text-body font-weight-bold px-0">
+            {% else %}
+            <a href="{% url 'password_change' %}" class="nav-link text-body font-weight-bold px-0">
+            {% endif %}
+              <span class="d-sm-inline d-none me-3">Change Password</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item d-flex align-items-center">
+            <a href="{% url 'login' %}" class="nav-link text-body font-weight-bold px-0">
+              <i class="fa fa-user me-sm-1"></i>
+              <span class="d-sm-inline d-none me-3">Sign In</span>
+            </a>
+          </li>
+        {% endif %}
 
         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
           <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">

@@ -18,12 +18,34 @@
         </div>
         </div>
         <ul class="navbar-nav me-auto ms-0 justify-content-end">
-        <li class="nav-item d-flex align-items-center">
-            <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-            <i class="fa fa-user me-sm-1"></i>
-            <span class="d-sm-inline d-none">يسجل دخول</span>
-            </a>
-        </li>
+            {% if request.user.is_authenticated %}
+                <li class="nav-item d-flex align-items-center ms-5">
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:logout' %}" class="nav-link text-body font-weight-bold px-0">
+                    {% else %}
+                    <a href="{% url 'logout' %}" class="nav-link text-body font-weight-bold px-0">
+                    {% endif %}
+                        <i class="fa fa-user me-sm-1"></i>
+                        <span class="d-sm-inline d-none">تسجيل خروج</span>
+                    </a>
+                </li>
+                <li class="nav-item d-flex align-items-center">
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:password_change' %}" class="nav-link text-body font-weight-bold px-0">
+                    {% else %}
+                    <a href="{% url 'password_change' %}" class="nav-link text-body font-weight-bold px-0">
+                    {% endif %}
+                        <span class="d-sm-inline d-none">غير كلمة السر</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{% url 'login' %}" class="nav-link text-body font-weight-bold px-0">
+                    <i class="fa fa-user me-sm-1"></i>
+                    <span class="d-sm-inline d-none">يسجل دخول</span>
+                    </a>
+                </li>
+            {% endif %}
         <li class="nav-item d-xl-none pe-3 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
             <div class="sidenav-toggler-inner">

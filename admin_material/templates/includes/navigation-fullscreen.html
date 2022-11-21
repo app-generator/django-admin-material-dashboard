@@ -17,25 +17,29 @@
             <div class="collapse navbar-collapse" id="navigation">
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{% url 'admin:index' %}">
+                  {% if request.user.is_superuser %}
+                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{% url 'admin:index' %}">
+                  {% else %}
+                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="/">
+                  {% endif %}
                     <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
                     Dashboard
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="#">
+                  <a class="nav-link me-2" href="{% url 'profile' %}">
                     <i class="fa fa-user opacity-6 text-dark me-1"></i>
                     Profile
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="#">
+                  <a class="nav-link me-2" href="{% url 'register' %}">
                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                     Sign Up
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="#">
+                  <a class="nav-link me-2" href="{% url 'login' %}">
                     <i class="fas fa-key opacity-6 text-dark me-1"></i>
                     Sign In
                   </a>
