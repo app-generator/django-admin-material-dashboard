@@ -108,13 +108,13 @@ This design is a pixel-perfect [Bootstrap 5](https://www.admin-dashboards.com/bo
 
 <br />
 
-> **Material Dashboard Theme** - `Admin Section` 
+> **[Django Admin Material](https://github.com/app-generator/django-admin-material-dashboard)** - `Admin Section` 
 
 ![Django Admin Material Dashboard - Admin dashboard page.](https://user-images.githubusercontent.com/51070104/196743760-6e0e1930-8233-421c-ac53-d65c273b00dc.png)
 
 <br />
 
-> **Material Dashboard Theme** - `Admin Widgets`
+> **[Django Admin Material](https://github.com/app-generator/django-admin-material-dashboard)** - `Admin Widgets`
 
 ![Django Admin Material Dashboard - New User Page.](https://user-images.githubusercontent.com/51070104/196743821-2e140dd8-fe15-4615-9e9f-0467900b1a1b.png)
 
