@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.5] 2022-11-25
+### Changes
+
+- AUTH Update (minor)
+  - redirect to `sign in` after successfull registration  
+
 ## [1.0.4] 2022-11-25
 ### Changes
 

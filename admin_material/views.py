@@ -40,6 +40,7 @@ def register(request):
     if form.is_valid():
       form.save()
       print('Account created successfully!')
+      return redirect('/accounts/login/')
     else:
       print("Register failed!")
   else:
