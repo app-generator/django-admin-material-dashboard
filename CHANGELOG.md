@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.4] 2022-11-25
+### Changes
+
+- Integrate all pages for `Django.contrib.AUTH`
+
 ## [1.0.3] 2022-11-18
 ### Improvements
 
