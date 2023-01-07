@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.6] 2023-01-25
+### Changes
+
+- DOCS Update
+- Links Update (minor)
+
 ## [1.0.5] 2022-11-25
 ### Changes
 
