@@ -11,7 +11,12 @@ Modern template for **Django** that covers `Admin Section`, all authentication p
 - [Django Admin Material](https://appseed.us/product/material-dashboard/django/) - `Product page`
   - `Features`: Fully-configured, `CI/CD` via Render
 - UI Kit: [Material Dashboard BS5](https://www.creative-tim.com/product/material-dashboard?AFFILIATE=128200) `v3.0.5` by Creative-Tim
-
+- **Sections Covered**: 
+  - `Admin Section`, reserved for `superusers`
+  - `All pages` managed by `Django.contrib.AUTH`
+  - `Registration` page
+  - `Misc pages`: colors, icons, typography, blank-page 
+  
 <br />
 
 ![Material Dashboard 2](https://user-images.githubusercontent.com/51070104/211141345-81631acb-ae77-4b31-ba25-a539505da41a.png)
