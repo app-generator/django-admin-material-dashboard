@@ -107,14 +107,67 @@ Access the `admin` section in the browser: `http://127.0.0.1:8000/`
 
 <br />
 
+## How to Customize 
+
+When a template file is loaded, `Django` scans all template directories starting from the ones defined by the user, and returns the first match or an error in case the template is not found. 
+The theme used to style this starter provides the following files: 
+
+```bash
+# This exists in ENV: LIB/admin_material
+< UI_LIBRARY_ROOT >                      
+   |
+   |-- templates/                     # Root Templates Folder 
+   |    |          
+   |    |-- accounts/       
+   |    |    |-- login.html           # Sign IN Page
+   |    |    |-- register.html        # Sign UP Page
+   |    |
+   |    |-- includes/       
+   |    |    |-- footer.html          # Footer component
+   |    |    |-- sidebar.html         # Sidebar component
+   |    |    |-- navigation.html      # Navigation Bar
+   |    |    |-- scripts.html         # Scripts Component
+   |    |
+   |    |-- layouts/       
+   |    |    |-- base.html            # Masterpage
+   |    |    |-- base-auth.html       # Masterpage for Auth Pages
+   |    |
+   |    |-- pages/       
+   |         |-- index.html           # Dashboard Page
+   |         |-- profile.html         # Profile Page
+   |         |-- *.html               # All other pages
+   |    
+   |-- ************************************************************************
+```
+
+When the project requires customization, we need to copy the original file that needs an update (from the virtual environment) and place it in the template folder using the same path. 
+
+For instance, if we want to customize the `footer.html` these are the steps:
+
+- `Step 1`: create the `templates` DIRECTORY inside your app 
+- `Step 2`: configure the project to use this new template directory
+  - Edit `settings.py` TEMPLATES section 
+- `Step 3`: copy the `footer.html` from the original location (inside your ENV) and save it to the `YOUR_APP/templates` DIR
+  - Source PATH: `<YOUR_ENV>/LIB/admin_material/templates/includes/footer.html`
+  - Destination PATH: `YOUR_APP/templates/includes/footer.html`
+- Edit the `footer.html` (Destination PATH)     
+
+At this point, the default version of the `footer.html` shipped in the library is ignored by Django.
+
+In a similar way, all other files and components can be customized easily.
+
+<br />
+
 ## [PRO Version](https://appseed.us/product/material-dashboard2-pro/django/)   
 
-This design is a pixel-perfect [Bootstrap 5](https://www.admin-dashboards.com/bootstrap-5-templates/) Dashboard with a fresh, new design inspired by Google's Material Design. `Material Dashboard 2 PRO` is built with over 300 frontend individual elements, like buttons, inputs, navbars, nav tabs, cards, or alerts, giving you the freedom of choosing and combining.
+This design is a pixel-perfect [Bootstrap 5](https://www.admin-dashboards.com/bootstrap-5-templates/) Dashboard with a fresh, new design inspired by Google's Material Design. 
+`Material Dashboard 2 PRO` is built with over 300 frontend individual elements, like buttons, inputs, navbars, nav tabs, cards, or alerts, giving you the freedom of choosing and combining.
 
 > Features: 
 
 - `Up-to-date Dependencies`
-- `Design`: [Django Theme Material2](https://github.com/app-generator/django-material-dashboard2-pro) - `PRO Version`
+- UI Theme: `Material2 PRO` 
+  - can be used in any Django project (new or legacy)
 - `Sections` covered by the design:
   - **Admin section** (reserved for superusers)
   - **Authentication**: `Django.contrib.AUTH`, Registration
