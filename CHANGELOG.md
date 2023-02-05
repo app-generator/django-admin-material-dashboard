@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.9] 2023-02-05
+### Changes
+
+- DOCS Update (Readme)
+- Links Curation
+
 ## [1.0.8] 2023-01-10
 ### Changes
 
