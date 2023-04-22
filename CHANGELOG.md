@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.10] 2023-04-22
+### Changes
+
+- Added Gulp Tooling
+- Update DOCS (section) 
+
 ## [1.0.9] 2023-02-05
 ### Changes
 
