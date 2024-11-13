@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.0.12] 2024-11-13
+### Changes
+
+- Update RM Links
+  - [Django Admin Material](https://app-generator.dev/docs/products/django-libs/theme-material-dashboard.html) - **Documentation** & Support Links
+  - [Django Material Dashboard](https://app-generator.dev/product/material-dashboard/django/) - The product that uses the library
+  - [Getting Started with Django](https://app-generator.dev/docs/technologies/django/index.html) - Learn how to code **Django** Projects
+
 ## [1.0.11] 2024-09-16
 ### Changes
 
