@@ -1,0 +1,382 @@
+{% extends "layouts/base.html" %}
+{% load static %} 
+
+{% block content %}
+
+<div class="body flex-grow-1">
+  <div class="container-lg px-4">
+        <div class="d-flex justify-content-between">
+          <div class=""></div>
+          <div class="mb-3">
+            <form method="get">
+              <div class="d-flex align-items-end gap-3 p-2">
+                <div class="form-group w-100 pr-2">
+                    <label for="from" class="form-label">From</label>
+                    <input type="date" value="{{ request.GET.from }}" name="from" class="form-control border ps-1 rounded" id="from">
+                </div>
+                <div class="form-group w-100 pr-2">
+                    <label for="to" class="form-label">To</label>
+                    <input type="date" value="{{ request.GET.to }}" name="to" class="form-control border ps-1 rounded" id="to">
+                </div>
+                <div class="d-flex flex-column "> 
+                    {% if request.GET.from or request.GET.to %}
+                    <button id="clearButton" class="btn btn-primary mb-0" type="button">Clear</button>
+                    {% else %}
+                    <button class="btn btn-primary mb-0" type="submit">Filter</button>
+                    {% endif %}
+                </div>
+            </div>
+            </form>
+          </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6 col-md-6 d-flex">
+              <div class="card flex-grow-1">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5>Sales</h5>
+                  <div class="card-header-right">
+                    <div class="btn-group card-option">
+                      <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="feather icon-more-horizontal"></i>
+                      </button>
+                      <ul class="list-unstyled card-option dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-item full-card">
+                          <a href="#!">
+                            <span>
+                              <i class="feather icon-maximize"></i>
+                              maximize
+                            </span>
+                            <span style="display:none">
+                              <i class="feather icon-minimize"></i>
+                              Restore
+                            </span>
+                          </a>
+                        </li>
+                        <li class="dropdown-item minimize-card">
+                          <a href="#!">
+                            <span>
+                              <i class="feather icon-minus"></i>
+                              collapse
+                            </span>
+                            <span style="display:none">
+                              <i class="feather icon-plus"></i>
+                              expand
+                            </span>
+                          </a>
+                        </li>
+                        <li class="dropdown-item reload-card">
+                          <a href="#!">
+                            <i class="feather icon-refresh-cw"></i>
+                            reload
+                          </a>
+                        </li>
+                        <li class="dropdown-item close-card">
+                          <a href="#!">
+                            <i class="feather icon-trash"></i>
+                            remove
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <div class="w-100" id="products-bar-chart"></div>
+                </div>
+              </div>
+            </div>
+          
+            <div class="col-xl-6 col-md-6 d-flex">
+              <div class="card flex-grow-1">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5>Sales</h5>
+                  <div class="card-header-right">
+                    <div class="btn-group card-option">
+                      <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="feather icon-more-horizontal"></i>
+                      </button>
+                      <ul class="list-unstyled card-option dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-item full-card">
+                          <a href="#!">
+                            <span>
+                              <i class="feather icon-maximize"></i>
+                              maximize
+                            </span>
+                            <span style="display:none">
+                              <i class="feather icon-minimize"></i>
+                              Restore
+                            </span>
+                          </a>
+                        </li>
+                        <li class="dropdown-item minimize-card">
+                          <a href="#!">
+                            <span>
+                              <i class="feather icon-minus"></i>
+                              collapse
+                            </span>
+                            <span style="display:none">
+                              <i class="feather icon-plus"></i>
+                              expand
+                            </span>
+                          </a>
+                        </li>
+                        <li class="dropdown-item reload-card">
+                          <a href="#!">
+                            <i class="feather icon-refresh-cw"></i>
+                            reload
+                          </a>
+                        </li>
+                        <li class="dropdown-item close-card">
+                          <a href="#!">
+                            <i class="feather icon-trash"></i>
+                            remove
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <div class="w-100" id="products-pie-chart"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+          
+    </div>
+  </div>
+
+{% endblock content %} 
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+
+  // Pull data from the backend
+  const sales = JSON.parse('{{ sales | safe }}');
+
+  const chartData = {};
+
+  sales.forEach(sale => {
+    let date = sale.fields.PurchaseDate;
+    let ItemName = sale.fields.Product;
+
+    if (!chartData[ItemName]) {
+      chartData[ItemName] = {
+        count: sale.fields.Quantity,
+        date: date
+      };
+    } else {
+      chartData[ItemName].count += sale.fields.Quantity;
+    }
+
+  });
+
+  const consolidatedChartData = [];
+
+  for (const data in chartData) {
+    consolidatedChartData.push({
+      x: chartData[data].date,
+      product: data,
+      y: chartData[data].count,
+      date: chartData[data].date
+    });
+  }
+
+  consolidatedChartData.sort((a, b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0));
+
+  function getSalesBarChart(consolidatedBarData) {
+
+    var options = {
+      series: [],
+      chart: {
+        height: 350,
+        type: 'bar',
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          dataLabels: {
+            position: 'top',
+          },
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return val;
+        },
+        offsetY: -20,
+        style: {
+          fontSize: '12px',
+          colors: consolidatedBarData.map(color => '#546E7A'),
+        }
+      },
+      legend: {
+        labels: {
+          colors: consolidatedBarData.map(color => '#546E7A'),
+        },
+      },
+      xaxis: {
+        categories: consolidatedBarData.map(cat => cat.date),
+        position: 'bottom',
+        axisBorder: {
+          show: false
+        },
+        tooltip: {
+          enabled: true,
+        },
+        labels: {
+          style: {
+            colors: consolidatedBarData.map(color => '#546E7A'),
+            fontWeight: 500,
+          },
+        }
+      },
+      tooltip: {
+        enabled: true,
+      }
+    };
+
+    const groupedData = consolidatedBarData.reduce((result, data) => {
+      const product = data.product;
+
+      if (!result[data]) {
+        result[data] = {
+          data: []
+        };
+      }
+
+      result[data].data.push(data.y);
+
+      return result;
+    }, {});
+
+
+    options.series = Object.values(groupedData);
+
+    return options;
+  }
+
+
+  getProductsPieChart = (consolidatedBarData) => {
+
+    let trafficChannelsChartColors = {};
+    if (document.documentElement.classList.contains('dark')) {
+      trafficChannelsChartColors = {
+        strokeColor: '#1f2937'
+      };
+    } else {
+      trafficChannelsChartColors = {
+        strokeColor: '#ffffff'
+      };
+    }
+
+
+    var options = {
+      series: [],
+      colors: ['#16BDCA', '#FDBA8C', '#1A56DB', '#FF4500', '#32CD32', '#C70039', '#007FFF', '#FFFF00', '#808080', '#DC143C', '#000000', '#FFFFFF'],
+      chart: {
+        type: 'donut',
+        height: 400,
+        fontFamily: 'Inter, sans-serif',
+        toolbar: {
+          show: false
+        },
+      },
+      responsive: [{
+        breakpoint: 430,
+        options: {
+          chart: {
+            height: 300
+          }
+        }
+      }],
+      stroke: {
+        colors: [trafficChannelsChartColors.strokeColor]
+      },
+      states: {
+        hover: {
+          filter: {
+            type: 'darken',
+            value: 0.9
+          }
+        }
+      },
+      tooltip: {
+        shared: true,
+        followCursor: false,
+        fillSeriesColor: false,
+        inverseOrder: true,
+        style: {
+          fontSize: '14px',
+          fontFamily: 'Inter, sans-serif'
+        },
+        x: {
+          show: true,
+          formatter: function (_, { seriesIndex, w }) {
+            const label = w.config.labels[seriesIndex];
+            return label;
+          }
+        },
+        y: {
+          formatter: function (value) {
+            return value;
+          }
+        }
+      },
+      grid: {
+        show: false
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: false
+      },
+    };
+
+    const groupedData = consolidatedBarData.reduce((result, data) => {
+      if (!result[data.product]) {
+        result[data.product] = data.y;
+      } else {
+        result[data.product] += data.y;
+      }
+      return result;
+    }, {});
+
+    options.series = Object.values(groupedData);
+
+    return options;
+
+  };
+
+  (async () => {
+    const productsBarChart = new ApexCharts(document.getElementById('products-bar-chart'), getSalesBarChart(consolidatedChartData));
+    productsBarChart.render();
+
+    const productsPieChart = new ApexCharts(document.getElementById('products-pie-chart'), getProductsPieChart(consolidatedChartData));
+    productsPieChart.render();
+
+    document.addEventListener('dark-mode', function () {
+      productsPieChart.updateOptions(getProductsPieChart(sales));
+    });
+  })();
+
+</script>
+
+<script>
+  document.getElementById('clearButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    var url = window.location.href.split('?')[0];
+    window.location.href = url;
+  });
+</script>
+
+{% endblock extra_js %}

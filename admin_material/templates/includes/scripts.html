@@ -1,8 +1,21 @@
-  {% load static %}
+{% load static %}
 
-  <!--   Core JS Files   -->
-  <script src="{% static 'js/core/popper.min.js' %}"></script>
-  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
-  <script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
-  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+<!-- CoreUI and necessary plugins-->
+<script src="{% static "js/vendors/coreui.bundle.min.js" %}"></script>
+{% comment %} <script src="{% static "js/vendors/simplebar.min.js" %}"></script> {% endcomment %}
+<script>
+    const header = document.querySelector('header.header');
+    
+    document.addEventListener('scroll', () => {
+    if (header) {
+        header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+    }
+    });
+    
+</script>
+<!-- Plugins and scripts required by this view-->
+<script src="{% static "js/vendors/chart.umd.js" %}"></script>
+<script src="{% static "js/vendors/coreui-chartjs.js" %}"></script>
+<script src="{% static "js/vendors/umd/index.js" %}"></script>
+<script src="{% static "js/main.js" %}"></script>
+<script> </script>

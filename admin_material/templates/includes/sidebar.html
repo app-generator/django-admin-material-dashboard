@@ -1,158 +1,187 @@
 {% load i18n static admin_material %}
 
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-        <img src="{% static 'img/logo-ct.png' %}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
-      </a>
+<div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+    <div class="sidebar-header border-bottom">
+      <div class="sidebar-brand">
+        <svg class="sidebar-brand-full" width="88" height="32" alt="CoreUI Logo">
+          <use xlink:href="{% static "assets/brand/coreui.svg" %}#full"></use>
+        </svg>
+        <svg class="sidebar-brand-narrow" width="32" height="32" alt="CoreUI Logo">
+          <use xlink:href="{% static "assets/brand/coreui.svg" %}#signet"></use>
+        </svg>
+      </div>
+      <button class="btn-close d-lg-none" type="button" data-coreui-dismiss="offcanvas" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
     </div>
-    <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-
+    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
+      <li class="nav-item"><a class="nav-link" href="{% url "index" %}">
+        <svg class="nav-icon">
+          <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-speedometer"></use>
+        </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a>
+      </li>
+    
       {% admin_get_menu as app_list %}
       {% if app_list %}
           {% for app in app_list %}
               {% if app.has_perms and not app.pinned %}
-                <li class="nav-item">
-                  <span class="nav-link{% if app_label != app.label and app.url not in request.path|urlencode  %} collapsed{% endif %} text-white" data-bs-toggle="collapse" data-bs-target="#submenu-{{ app.app_label }}">
-                    <span class="d-flex justify-content-between align-items-center">
-                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <span class="sidebar-icon {{ app.icon }}"></span>
-                      </div>
-                      <a href="{{ app.url }}">
-                        <span class="nav-link-text ms-1 text-white">{{ app.label|slice:10 }}{% if app.label|length > 10 %}..{% endif %}</span>
-                      </a>
-                    </span>
-                  </span>
+                <li class="nav-group">
+                  <a class="nav-link nav-group-toggle" href="{{ app.url }}">
+                    {% comment %} <span class="sidebar-icon {{ app.icon }}"></span> {% endcomment %}
+                    <svg class="nav-icon">
+                      <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-puzzle"></use>
+                    </svg>
+                    {{ app.label|slice:10 }}{% if app.label|length > 10 %}..{% endif %}
+                  </a>
 
                   {% if app.models %}
-                    <div class="multi-level ms-5 collapse {% if 'tables-bootstrap-' in segment or app_label == app.label or app.url in request.path|urlencode %} show {% endif %}" role="list" id="submenu-{{ app.app_label }}"                                                                                                       aria-expanded="{% if app_label == app.label or app.url in request.path|urlencode %}true{% else %}false{% endif %}">
-                      <ul class="flex-column nav">
-                        {% for model in app.models %}
-                          {% if model.url %}
-                            <li class="nav-item{% if 'bootstrap-tables' in segment or model.url in request.path|urlencode %} active {% endif %} list-unstyled">
-                              <a class="nav-link" href="{{ model.url }}">
-                                <span class="nav-link-text ms-1">{{ model.label }}</span>
-                              </a>
-                            </li>
-                          {% else %}
-                            <li class="nav-item list-unstyled">{{ model.label }}</li>
-                          {% endif %}
-                        {% endfor %}
-                      </ul>
-                    </div>
+                    <ul class="nav-group-items compact">
+                      {% for model in app.models %}
+                        {% if model.url %}
+                          <li class="nav-item">
+                            <a class="nav-link" href="{{ model.url }}">
+                              <span class="nav-icon">
+                                <span class="nav-icon-bullet"></span>
+                              </span> 
+                              {{ model.label }}
+                            </a>
+                          </li>
+                        {% else %}
+                          <li class="nav-item">{{ model.label }}</li>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
                   {% endif %}
                 </li>
               {% endif %}
           {% endfor %}
       {% endif %}
 
-        <li class="nav-item">
-
-            {% if request.user.is_superuser %}
-            <a href="{% url 'admin:index' %}" class="nav-link text-white {% if 'index' in segment %} active {% endif %}">
-            {% else %}
-            <a href="{% url 'index' %}" class="nav-link text-white {% if 'index' in segment %} active {% endif %}">
-            {% endif %}
-
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <title>shop </title>
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                        <g transform="translate(1716.000000, 291.000000)">
-                            <g transform="translate(0.000000, 148.000000)">
-                            <path class="color-background opacity-6" d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"></path>
-                            <path class="color-background" d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"></path>
-                            </g>
-                        </g>
-                        </g>
-                    </g>
-                    </svg>
-                </div>
-                <span class="nav-link-text ms-1">{% trans 'Dashboard' %}</span>
-            </a>
-        </li>
-
-        {% if request.user.is_authenticated and not request.user.is_superuser %}
-
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'tables' in segment %} active {% endif %} " href="{% url 'tables' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Tables</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'billing' in segment %} active {% endif %} " href="{% url 'billing' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">receipt_long</i>
-            </div>
-            <span class="nav-link-text ms-1">Billing</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'vr' in segment %} active {% endif %} " href="{% url 'vr' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">view_in_ar</i>
-            </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'rtl' in segment %} active {% endif %} " href="{% url 'rtl' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-            </div>
-            <span class="nav-link-text ms-1">RTL</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'notification' in segment %} active {% endif %} " href="{% url 'notification' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">notifications</i>
-            </div>
-            <span class="nav-link-text ms-1">Notifications</span>
-          </a>
-        </li>
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'profile' in segment %} active {% endif %} " href="{% url 'profile' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{% url 'login' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="{% url 'register' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">assignment</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign Up</span>
-          </a>
-        </li>
-        {% endif %}
-      </ul>
+      <li class="nav-title">Theme</li>
+      <li class="nav-item"><a class="nav-link" href="{% url "colors" %}">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-drop"></use>
+          </svg> Colors</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url "typography" %}">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-pencil"></use>
+          </svg> Typography</a></li>
+        
+      {% if request.user.is_authenticated %}
+      <li class="nav-title">Components</li>
+      <li class="nav-group">
+        <a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-puzzle"></use>
+          </svg> Base
+        </a>
+        <ul class="nav-group-items compact">
+          <li class="nav-item"><a class="nav-link" href="{% url "accordion" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Accordion</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "breadcrumb" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Breadcrumb</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "cards" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Cards</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "carousel" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Carousel</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "collapse" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Collapse</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "list_group" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> List group</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "navs_tabs" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Navs &amp; Tabs</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "pagination" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Pagination</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "placeholders" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Placeholders</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "popovers" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Popovers</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "progress" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Progress</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "spinners" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Spinners</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "base_tables" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Tables</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "tooltips" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Tooltips</a></li>
+        </ul>
+      </li>
+      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-cursor"></use>
+          </svg> Buttons</a>
+        <ul class="nav-group-items compact">
+          <li class="nav-item"><a class="nav-link" href="{% url "buttons" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Buttons</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "button_group" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Buttons Group</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "dropdowns" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Dropdowns</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="{% url "charts" %}">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-chart-pie"></use>
+          </svg> Charts</a></li>
+      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-notes"></use>
+          </svg> Forms</a>
+        <ul class="nav-group-items compact">
+          <li class="nav-item"><a class="nav-link" href="{% url "form_control" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Form Control</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "select" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Select</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "check_radios" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Checks and radios</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "range" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Range</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "input_group" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Input group</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "floating_labels" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Floating labels</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "layout" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Layout</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "validation" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Validation</a></li>
+        </ul>
+      </li>
+      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-star"></use>
+          </svg> Icons</a>
+        <ul class="nav-group-items compact">
+          <li class="nav-item"><a class="nav-link" href="{% url "icons_free" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> CoreUI Icons<span class="badge badge-sm bg-success ms-auto">Free</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "icons_brand" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> CoreUI Icons - Brand</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "icons_flag" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> CoreUI Icons - Flag</a></li>
+        </ul>
+      </li>
+      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-bell"></use>
+          </svg> Notifications</a>
+        <ul class="nav-group-items compact">
+          <li class="nav-item"><a class="nav-link" href="{% url "alerts" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Alerts</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "badge" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Badge</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "modals" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Modals</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "toasts" %}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Toasts</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="{% url "widgets" %}">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-calculator"></use>
+          </svg> Widgets<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+      {% endif %}
+      <li class="nav-divider"></li>
+      <li class="nav-title">Extras</li>
+      {% if not request.user.is_authenticated %}
+      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-star"></use>
+          </svg> Pages</a>
+        <ul class="nav-group-items compact">
+          <li class="nav-item"><a class="nav-link" href="{% url "login" %}" target="_top">
+              <svg class="nav-icon">
+                <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-account-logout"></use>
+              </svg> Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "register" %}" target="_top">
+              <svg class="nav-icon">
+                <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-account-logout"></use>
+              </svg> Register</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "error_404" %}" target="_top">
+              <svg class="nav-icon">
+                <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-bug"></use>
+              </svg> Error 404</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "error_500" %}" target="_top">
+              <svg class="nav-icon">
+                <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-bug"></use>
+              </svg> Error 500</a></li>
+        </ul>
+      </li>
+      {% endif %}
+      <li class="nav-item mt-auto"><a class="nav-link" href="https://coreui.io/docs/templates/installation/" target="_blank">
+          <svg class="nav-icon">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-description"></use>
+          </svg> Docs</a></li>
+      <li class="nav-item"><a class="nav-link text-primary fw-semibold" href="https://coreui.io/product/bootstrap-dashboard-template/" target="_top">
+          <svg class="nav-icon text-primary">
+            <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-layers"></use>
+          </svg> Try CoreUI PRO</a></li>
+    </ul>
+    <div class="sidebar-footer border-top d-none d-md-flex">     
+      <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
     </div>
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-      <div class="mx-3">
-        <a class="btn bg-gradient-primary mt-4 w-100" target="_blank" 
-           href="https://appseed.us/product/material-dashboard2-pro/django/" type="button">PRO Version</a>
-      </div>
-    </div>
-  </aside>
+</div>

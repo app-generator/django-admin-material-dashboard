@@ -1,0 +1,253 @@
+{% extends "layouts/base.html" %}
+{% load static file_extension info_value %}
+
+{% block extrastyle %}
+<style>
+  ul li {
+    list-style-type: none;
+  }
+  .dot-separator {
+    height: 2px;
+    width: 2px;
+    background: #000;
+    border-radius: 50%;
+  }
+  .actions span {
+    cursor: pointer;
+  }
+  .modal {
+    z-index: 99999 !important;
+  }
+  .modal-dialog {
+    max-width: 1000px !important;
+  }
+  .font {
+    font-size: 25px;
+}
+</style>
+{% endblock extrastyle %}
+
+{% block content %}
+
+  <div class="container-fluid py-5 px-5">
+    <div class="row">
+      <div class="col-lg-3 border rounded-start py-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            {% for breadcrumb in breadcrumbs %}
+              {% if forloop.last %}
+                <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+              {% else %}
+                {% if breadcrumb.name|lower == 'media' %}
+                  <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+                {% else %}
+                  <li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </ol>
+        </nav>
+        <ul class="">
+          {% for directory in directories %}
+            {% if directory.directories %}
+            <li class="">
+              <svg style="width: 20px; height: 20px;" class="cursor-pointer">
+                <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-folder-open"></use>
+              </svg>
+              <a 
+                data-coreui-toggle="collapse" 
+                href="#collapse{{directory.id}}" 
+                role="button" 
+                aria-expanded="false"
+                aria-controls="collapse{{directory.id}}"
+                onclick="window.location.href = '{% url 'file_manager' directory.path|encoded_path %}';"
+              >
+                {{ directory.name }}
+              </a>
+            </li>
+            {% include 'includes/subdirectories.html' with directory=directory depth=depth|add:"3" %}
+          {% else %}
+            <li>
+              <svg style="width: 20px; height: 20px;" class="cursor-pointer">
+                <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-folder-open"></use>
+              </svg>
+              <a href="{% url 'file_manager' directory.path|encoded_path %}">{{ directory.name }}</a>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-lg-9 border-start-0 border rounded-end py-2">
+        <div class="d-flex justify-content-start mb-3">
+          <label for="fileInput">
+            <svg style="width: 20px; height: 20px;" class="cursor-pointer">
+              <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-cloud-upload"></use>
+            </svg>
+          </label>
+          <form method="post" action="{% url 'upload_file' %}" id="upload-file" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="directory" value="{{ selected_directory }}">
+            <input id="fileInput" class="d-none" onchange="submitForm()" type="file" name="file" required>
+          </form>
+        </div>
+        {% if files %}
+          {{files|length|json_script:"files-count"}}
+          <div class="table-responsive">
+            <table class="table">
+              <tr>
+                <th scope="col">File Name</th>
+                <th scope="col">File Type</th>
+                <th scope="col">Actions</th>
+              </tr>
+              {% for file in files %}
+              <tr data-coreui-toggle="tooltip" title="{{file.file_path|info_value}}">
+                <td>
+                  <span>
+                    {{ file.filename }}
+                  </span>
+                </td>
+                <td>{{ file.filename|file_extension|cut:"."|upper }}</td>
+                <td>
+                  <div class="d-flex align-items-center actions">
+                    <span data-coreui-toggle="modal" data-coreui-target="#info-{{forloop.counter}}">
+                      <svg title="Info" style="width: 20px; height: 20px;" class="text-success">
+                        <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-info"></use>
+                      </svg>
+                    </span>
+                    <div class="dot-separator mx-2"></div>
+                    <span data-coreui-toggle="modal" data-coreui-target="#file-{{forloop.counter}}">
+                      <svg title="View" style="width: 20px; height: 20px;" class="text-primary">
+                        <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-eyedropper"></use>
+                      </svg>
+                    </span>
+                    <div class="dot-separator mx-2"></div>
+                    <span  data-coreui-toggle="modal" data-coreui-target="#delete-{{forloop.counter}}">
+                      <svg title="Delete" style="width: 20px; height: 20px;" class="text-danger">
+                        <use xlink:href="{% static "icons/sprites/free.svg" %}#cil-trash"></use>
+                      </svg>
+                    </span>
+
+                  </div>
+                </td>
+              </tr>
+
+              <!-- View Modal -->
+              <div class="modal fade" id="file-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center">
+                      <h5 id="staticBackdropLabel">{{ file.filename }}</h5>
+                      <span class="font">
+                        <a href="{% url 'download_file' file.file|encoded_file_path %}">
+                          <i title="Download" class="fas fa-download text-success"></i>
+                        </a>
+                      </span>
+                      <div class="cursor-pointer" id="modal-close-btn-{{forloop.counter}}" data-coreui-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times font"></i>
+                      </div>
+                    </div>
+
+                    <div class="modal-body">
+                      {% if file.filename|file_extension in ".jpg, .png, .gif, .jpeg" %}
+                        <img height="700px" class="w-100" src="/media/{{ file.file }}" alt="df">
+                      {% elif file.filename|file_extension in ".mp4, .webm, .ogg" %}
+                        <video class="w-100" height="700" controls>
+                          <source src="/media/{{ file.file }}" type="video/mp4">
+                        </video>
+                      {% elif file.filename|file_extension in ".pdf, .txt" %}
+                        <iframe src="/media/{{ file.file }}" width="100%" height="700px"></iframe>
+                      {% elif file.filename|file_extension in ".csv" %}
+                        <pre class="bg-dark text-light p-3">{{ file.csv_text }}</pre>
+                      {% endif %}
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delete Modal -->
+              <div class="modal fade" id="delete-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Delete File</h1>
+                      <div class="cursor-pointer" id="delete-{{forloop.counter}}" data-coreui-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times fs-5"></i>
+                      </div>
+                    </div>
+                    <div class="modal-body">
+                      {{file.filename}}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Cancel</button>
+                      <a class="btn btn-danger" href="{% url 'delete_file' file.file|encoded_file_path %}">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- Info Modal -->
+              <div class="modal fade" id="info-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between">
+                      <h4 class="modal-title fs-5" id="exampleModalLabel">File Info</h4>
+                      <div class="cursor-pointer" id="modal-close-btn-{{forloop.counter}}" data-coreui-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times fs-5"></i>
+                      </div>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{% url 'save_info' file.file_path|encoded_file_path %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                          <label for="" class="control-label">File Info</label>
+                          <input type="text" value="{{file.file_path|info_value}}" name="info" id="" class="form-control border ps-2">
+                        </div>
+                        <div class="d-flex justify-content-end">
+                          <button type="submit" class="btn btn-primary" data-coreui-dismiss="modal">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </table>
+          </div>
+        {% else %}
+          <p>No files</p>
+        {% endif %}
+      </div>
+    </div>
+  
+  </div>
+
+
+
+
+{% endblock content %}
+
+
+{% block extra_js %}
+
+
+
+<script>
+  function submitForm() {
+    document.getElementById("upload-file").submit();
+  }
+  
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' || event.key === 'Esc' || event.key === 27) {
+      let files = document.getElementById('files-count').textContent;
+      for (let i = 1; i <= files; i++) {
+        let closeButtonElements = document.getElementById(`modal-close-btn-${i}`);
+        closeButtonElements.click();
+      }
+    }
+  })
+</script>
+
+{% endblock extra_js %}
+
+

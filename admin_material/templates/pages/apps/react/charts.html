@@ -1,0 +1,109 @@
+{% extends "layouts/base.html" %}
+{% load static %} 
+{% load render_bundle from webpack_loader %}
+{% render_bundle 'frontend' %}
+
+{% block content %}
+
+
+  <div class="container-fluid py-3">
+      <div class="row">
+        <div class="d-flex justify-content-between">
+          <div class=""></div>
+          <div class="mb-3">
+            <form method="get">
+              <div class="d-flex align-items-end gap-3 p-2">
+                <div class="form-group w-100 pr-2">
+                    <label for="from" class="form-label">From</label>
+                    <input type="date" value="{{ request.GET.from }}" name="from" class="form-control border ps-1 rounded" id="from">
+                </div>
+                <div class="form-group w-100 pr-2">
+                    <label for="to" class="form-label">To</label>
+                    <input type="date" value="{{ request.GET.to }}" name="to" class="form-control border ps-1 rounded" id="to">
+                </div>
+                <div class="d-flex flex-column "> 
+                    {% if request.GET.from or request.GET.to %}
+                    <button id="clearButton" class="btn btn-primary mb-0" type="button">Clear</button>
+                    {% else %}
+                    <button class="btn btn-primary mb-0" type="submit">Filter</button>
+                    {% endif %}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5>Sales</h5>
+              <div class="card-header-right">
+                <div class="btn-group card-option">
+                  <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="feather icon-more-horizontal"></i>
+                  </button>
+                  <ul class="list-unstyled card-option dropdown-menu dropdown-menu-end">
+                    <li class="dropdown-item full-card">
+                      <a href="#!">
+                        <span>
+                          <i class="feather icon-maximize"></i>
+                          maximize
+                        </span>
+                        <span style="display:none">
+                          <i class="feather icon-minimize"></i>
+                          Restore
+                        </span>
+                      </a>
+                    </li>
+                    <li class="dropdown-item minimize-card">
+                      <a href="#!">
+                        <span>
+                          <i class="feather icon-minus"></i>
+                          collapse
+                        </span>
+                        <span style="display:none">
+                          <i class="feather icon-plus"></i>
+                          expand
+                        </span>
+                      </a>
+                    </li>
+                    <li class="dropdown-item reload-card">
+                      <a href="#!">
+                        <i class="feather icon-refresh-cw"></i>
+                        reload
+                      </a>
+                    </li>
+                    <li class="dropdown-item close-card">
+                      <a href="#!">
+                        <i class="feather icon-trash"></i>
+                        remove
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-block w-100" id="app">
+              {{ sales|json_script:'sales' }}
+              {% render_bundle 'frontend' %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+{% endblock content %} 
+
+{% block extra_js %}
+
+<script>
+  document.getElementById('clearButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    var url = window.location.href.split('?')[0];
+    window.location.href = url;
+  });
+</script>
+
+{% endblock extra_js %}
