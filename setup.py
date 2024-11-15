@@ -8,14 +8,14 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
 name='django-admin-material-dashboard',
-version='1.0.12',
+version='1.0.13',
 zip_safe=False,
 packages=find_packages(),
 include_package_data=True,
 description='Modern template for Django admin interface',
 long_description=README,
 long_description_content_type="text/markdown",
-url='https://appseed.us/product/material-dashboard/django/',
+url='https://app-generator.dev/docs/products/django-libs/theme-material-dashboard.html',
 author='AppSeed.us',
 author_email='support@appseed.us',
 license='MIT License',

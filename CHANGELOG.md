@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.13] 2024-11-15
+### Changes
+
+- Ui Update: [Material Dashboard 3](https://app-generator.dev/docs/templates/bootstrap/material-dashboard.html) 
+
 ## [1.0.12] 2024-11-13
 ### Changes
 
