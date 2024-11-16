@@ -1,4 +1,4 @@
-{% load static %}
+{% load i18n static admin_material %}
 
 <aside style="z-index: 1;" class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
     <div class="sidenav-header">
@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
 
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a data-bs-toggle="collapse" href="#apps" class="nav-link {% if 'apps' == parent %} active bg-gradient-dark text-white {% else %} text-dark {% endif %} " aria-controls="apps" role="button" aria-expanded="false">
             <i class="material-symbols-rounded opacity-5">dashboard</i>
             <span class="nav-link-text ms-2 ps-1">Apps</span>
@@ -24,46 +24,42 @@
                   <span class="sidenav-mini-icon"> DT </span>
                   <span class="sidenav-normal  ms-2  ps-1"> Data Tables </span>
                 </a>
-              </li>        
-              <li class="nav-item">
-                <a class="nav-link {% if 'charts' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "charts_app" %}">
-                  <span class="sidenav-mini-icon"> C </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> Charts </span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'react_charts' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url 'react_charts' %}">
-                  <span class="sidenav-mini-icon"> CR </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> Charts ReactJS </span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'api' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="/api/sales/" target="_blank" >
-                  <span class="sidenav-mini-icon"> A </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> API </span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'file_manager' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "file_manager" %}">
-                  <span class="sidenav-mini-icon"> FM </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> File Manager </span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'user_profile' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "user_profile" %}">
-                  <span class="sidenav-mini-icon"> P </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> Profile </span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'tasks' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "tasks" %}">
-                  <span class="sidenav-mini-icon"> T </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> Tasks </span>
-                </a>
-              </li>        
+              </li> 
             </ul>
           </div>
-        </li>
+        </li> {% endcomment %}
+
+        {% admin_get_menu as app_list %}
+        {% if app_list %}
+          {% for app in app_list %}
+            {% if app.has_perms and not app.pinned %}
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#apps" class="nav-link text-dark" aria-controls="apps" role="button" aria-expanded="false">
+                  <i class="material-symbols-rounded opacity-5">dashboard</i>
+                  <span class="nav-link-text ms-2 ps-1">{{ app.label|slice:10 }}{% if app.label|length > 10 %}..{% endif %}</span>
+                </a>
+                {% if app.models %}
+                <div class="collapse show" id="apps">
+                  <ul class="nav">
+                    {% for model in app.models %}
+                      {% if model.url %}
+                        <li class="nav-item">
+                          <a class="nav-link text-dark" href="{{ model.url }}">
+                            <span class="sidenav-mini-icon"> {{ model.label|first }} </span>
+                            <span class="sidenav-normal  ms-2  ps-1"> {{ model.label }} </span>
+                          </a>
+                        </li>
+                      {% else %}
+                        <li class="nav-item">{{ model.label }}</li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
 
         <li class="nav-item">
           <a class="nav-link {% if 'dashboard' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "index" %}">
