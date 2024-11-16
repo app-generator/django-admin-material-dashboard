@@ -1,0 +1,368 @@
+{% extends 'layouts/base.html' %}
+{% load formats file_extension info_value %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block extrastyle %}
+<!-- Specific CSS goes HERE -->
+<style>
+  .badge.bg-success:not(.badge-opaque) {
+    background: #14A44D !important; }
+  
+  .badge.bg-warning:not(.badge-opaque) {
+    background: #E4A11B !important; }
+  
+  .badge.bg-danger:not(.badge-opaque) {
+    background: #DC4C64 !important; }
+
+  .badge.bg-secondary:not(.badge-opaque) {
+    background: #9FA6B2 !important; }
+
+</style>
+{% endblock extrastyle %}
+
+<!-- MAIN Content -->
+{% block content %}
+
+
+<div class="container-fluid py-5">
+
+    <!-- Info component -->
+    <div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+        <div class="card-header pb-0">
+            <h6>
+            Async Tasks Manager
+            </h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2 px-4 mt-3">
+            
+            {% if scripts %}
+            <p>
+                Superusers are able to create/cancel tasks.
+                <br />
+                Ordinary users can only view execution logs and running tasks (no other interactions allowed).
+            </p>
+            {% else %}
+            <p class="text-danger">
+                No scripts detected - Please update the configuration (CELERY_SCRIPTS_DIR, CELERY_LOGS_DIR)
+            </p>
+            {% endif %}
+        
+        </div>
+        </div>
+    </div>
+    </div>
+    
+    <!-- Task Manager Component -->
+    <div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+        <div class="card-header pb-0">
+            <h6>Tasks List</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+                <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Script</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATE</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Script
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    ARGS
+                    </th>                   
+                    {% if request.user.is_authenticated %}
+                    <th class="text-center text-secondary opacity-7">Action</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+
+                <!-- Running Task -->
+                {% for task in  tasks %}    
+
+                {% if task.status == "STARTED" %}
+                <form action="{% url 'cancel-task' task.id %}" method="post">
+                {% else %}
+                <form action="{% url 'run-task' task.name %}" method="post">                      
+                {% endif %}  
+
+                
+                    {% csrf_token %}
+                    <tr>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                        <div class="mx-3">
+                            <i class="fa fa-file-code-o fa-2x"></i>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                            {{task.name}}
+                            </h6>
+                            <p class="text-xs text-secondary mb-0">
+                            Celery Task
+                            </p>
+                        </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">
+                        {{ task.script }}
+                        </p>
+                        <div class="text-xs text-warning mb-0" style="width:200px;height:50px;overflow-x: scroll;">
+                        Latest status: {{ task.status }}
+                        </div>                          
+                    </td>
+                    <td class="align-middle text-center text-sm">
+
+                        {% if task.status == "STARTED" %}
+                        <span class="badge bg-warning">RUNNING</span>
+                        {% elif task.status == "FAILURE" %}
+                        <span class="badge bg-danger">FINISHED</span>
+                        {% elif task.status == "REVOKED" %}
+                        <span class="badge bg-secondary">CANCELLED</span>
+                        {% else %}
+                        <span class="badge bg-success text-white">FINISHED</span>                          
+                        {% endif %}
+                        
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                        
+                        {% if task.name == 'execute_script' %}
+
+                            <select class="form-control border ps-2" name="script" 
+                            {% if task.status == "STARTED" or not scripts %}
+                            disabled
+                            {% endif %}
+                            >
+                            {% for item in scripts %}
+                                <option value="{{item}}" {% if item == task.input %}selected{% endif %}>{{ item }}</option>
+                            {% endfor %}
+                            </select>
+                        
+                        {% else %}
+                            NA
+                        {% endif %}
+                        
+                        </span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold ">
+                        <input type="text" id="args" name="args" class="form-control w-75">
+                        </span>
+                    </td>
+
+                    {% if request.user.is_authenticated %}
+                    <td class="align-middle text-center">
+
+                        {% if task.status == "STARTED" %}
+
+                        <button href="javascript:;" class="text-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            Cancel Task
+                        </button>
+
+                        {% elif task.status == "FAILURE" or task.status == "REVOKED" %}
+                            
+                            <button href="javascript:;" 
+                                    class="text-info  btn border-info font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            Execute
+                            </button>
+
+                        {% else %}                               
+                        
+                            <button href="javascript:;" 
+                                    class="text-info btn border-info font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            Execute
+                            </button>
+
+                        {% endif %}
+
+                    </td>
+                    {% endif %}
+                    </tr>
+
+                </form>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Task Logs -->
+    <div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+        <div class="card-header pb-0">
+            <h6>
+            LOGS
+            </h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+            <table class="table align-items-center justify-content-center mb-0">
+                <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Task</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Input</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Status</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Start TS</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">End TS</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Output</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Logs</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in task_results %}
+                    <tr>
+
+                    <td>
+                        <div class="d-flex px-2">
+                        <div class="my-auto">
+                            <h6 class="mb-0 text-sm">
+                            {{result.id}} - {{result.task_name}}
+                            </h6>
+                            <p class="text-xs text-secondary mb-0">
+                            {{result.task_id}}
+                            </p>
+                        </div>
+                        </div>
+                    </td>
+
+                    <td class="align-middle">
+                        <p class="text-sm mb-0">{{result|get_result_field:"input"}}</p>
+                    </td>
+
+                    <td class="align-middle">
+                        <p class="text-sm 
+                        {% if result|get_result_field:"status" == 'SUCCESS' %} text-success
+                        {% elif result|get_result_field:"status" == 'FAILURE' %} text-danger
+                        {% else %} text-warning {% endif %}
+                        text-center mb-0"
+                        >
+                        {% if result|get_result_field:"status" %}
+                        {{result|get_result_field:"status"}}
+                        {% else %}
+                        RUNNING
+                        {% endif %}
+                        </p>
+                    </td>
+                    
+                    <td class="align-middle">
+                        <p class="text-sm text-center mb-0">{{result.date_created|date_format}}</p>
+                    </td>
+                    
+                    <td class="align-middle">
+                        <p class="text-sm text-center mb-0">{{result.date_done|date_format}}</p>
+                    </td>      
+                    
+                    <td class="">
+                        <p class="text-sm text-center mb-0">{{result|get_result_field:"output"}}</p>
+                    </td>   
+                    <td class="">
+                        <p class="text-sm text-center mb-0">
+                        <a data-bs-toggle="modal" data-bs-target="#view-log-{{result.id}}" href="#">View LOG</a> 
+                        </p>
+                    </td>                                               
+
+                    </tr>
+
+                    <div class="modal fade" id="view-log-{{result.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header d-flex justify-content-between align-items-center">
+                            <h5 class="modal-title fs-5" id="staticBackdropLabel">
+                            {% if result|get_result_field:"log_file" %}
+                                {{result|get_result_field:"log_file"|log_file_path|cut:"/"}}
+                            {% endif %}
+                            </h5>
+                            <span>
+                            {% if result|get_result_field:"log_file" %}
+                                <a href="{% url 'download_log_file' result|get_result_field:"log_file"|encoded_file_path %}">
+                                <i title="Download" class="fas fa-download text-success fs-4"></i>
+                                </a>
+                            {% endif %}
+                            </span>
+                            <div class="cursor-pointer" id="modal-close-btn-{{result.id}}" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-times fs-5"></i>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            {% if result|get_result_field:"log_file" %}
+                            <pre class="bg-dark text-light p-3">{{result|get_result_field:"log_file"|log_file_path|log_to_text}}</pre>
+                            {% endif %}
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+</div>
+
+<div class="modal fade" 
+        id="log-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h6 class="modal-title mx-auto" id="modal-title-default">
+            Task LOG
+        </h6>
+        </div>
+        <div class="modal-body">
+        <p id="log-content">
+        </p>
+        </div>
+        <div class="modal-footer text-center">
+        <button type="button" class="btn btn-link mx-auto" data-bs-dismiss="modal">Dismiss</button>
+        </div>
+    </div>
+    </div>
+</div>  
+
+
+{% endblock content %}
+<!-- MAIN Content END -->
+
+<!-- Specific JS goes HERE --> 
+{% block extra_js %}
+
+<script>
+
+var logsModal      = new bootstrap.Modal(document.getElementById("log-modal"), {});
+var logFileContent = document.getElementById("log-content");
+
+function viewLog( aId ) {
+  //console.log(' > LOG ' + aId );
+
+  fetch('{% url 'task-log' %}?task_id=' + aId)
+      .then((response) => response.json())
+      .then((data) => { 
+        console.log( data );
+        logFileContent.textContent = JSON.stringify( data ); 
+        logsModal.show();
+      })
+      .catch((err)     => { console.log(err.toString()) }); 
+}
+
+</script>
+
+{% endblock extra_js %}

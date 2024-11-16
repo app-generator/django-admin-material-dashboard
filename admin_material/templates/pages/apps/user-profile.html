@@ -1,0 +1,288 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .img-rounded {
+        width: 107px;
+        border-radius: 68px;
+        margin-top: 31px;
+        margin-right: 44px;
+    }
+
+    .certificated-badge {
+        margin-top: -30px;
+        margin-left: 80px;
+        font-size: 23px;
+    }
+
+    .cehck {
+        margin-left: -17px;
+        font-size: 12px;
+        margin-top: 12px !important;
+        position: absolute;
+    }
+</style>
+
+<div class="container-fluid py-5">
+    <div class="row">
+        <!-- [ sample-page ] start -->
+        <div class="col-lg-4">
+            <div class="card user-card user-card-1">
+                <div class="card-body pb-0">
+                    <div class="float-end">
+                        <span class="badge bg-success">Pro</span>
+                    </div>
+                    <div class="media user-about-block d-flex align-items-center mt-0 mb-3">
+                        <form method="post" action="{% url "upload_avatar" %}" class="position-relative d-inline-block"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" onchange="this.form.submit()" name="avatar" class="d-none" id="avatar">
+                            <label for="avatar">
+                                {% if request.user.profile.avatar %}
+                                <img class="img-rounded img-fluid wid-80" src="{{ request.user.profile.avatar.url }}"
+                                    alt="User image">
+                                {% else %}
+                                <img class="img-rounded img-fluid wid-80"
+                                    src="{% static 'assets/img/avatar.jpg' %}" alt="User image">
+                                {% endif %}
+                                <div class="certificated-badge">
+                                    <i class="fas fa-certificate text-primary bg-icon"></i>
+                                    <i class="fas fa-check front-icon text-white cehck"></i>
+                                </div>
+                            </label>
+                        </form>
+                        <div class="media-body">
+                            <h4 class="mb-1">
+                                {% if request.user.profile.full_name %}
+                                {{request.user.profile.full_name}}
+                                {% else %}
+                                {{ request.user.username }}
+                                {% endif %}
+                            </h4>
+                            <p class="mb-0 text-muted">
+                                {{ request.user.email }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <span class="fw-bold"><i class="feather icon-mail me-2"></i>Email</span>
+                        <a href="mailto:demo@sample" class="float-end text-body">{{ request.user.email }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="fw-bold"><i class="feather icon-phone-call me-2"></i>Phone</span>
+                        <a href="#" class="float-end text-body">{{ request.user.profile.phone|default_if_none:"" }}</a>
+                    </li>
+                </ul>
+                <div class="nav flex-column nav-pills list-group list-group-flush list-pills mt-2" id="user-set-tab"
+                    role="tablist" aria-orientation="vertical">
+                    <a class="nav-link list-group-item list-group-item-action active" id="user-set-profile-tab"
+                        data-bs-toggle="pill" href="#user-set-profile" role="tab" aria-controls="user-set-profile"
+                        aria-selected="true">
+                        <span class="fw-bold"><i class="feather icon-user me-2 h5"></i>Profile Overview</span>
+                        <span class="float-end"><i class="feather icon-chevron-right"></i></span>
+                    </a>
+                    <a class="nav-link list-group-item list-group-item-action" id="user-set-information-tab"
+                        data-bs-toggle="pill" href="#user-set-information" role="tab"
+                        aria-controls="user-set-information" aria-selected="false">
+                        <span class="fw-bold"><i class="feather icon-file-text me-2 h5"></i>Edit Profile</span>
+                        <span class="float-end"><i class="feather icon-chevron-right"></i></span>
+                    </a>
+                    <a class="nav-link list-group-item list-group-item-action" id="user-set-passwort-tab"
+                        data-bs-toggle="pill" href="#user-set-passwort" role="tab" aria-controls="user-set-passwort"
+                        aria-selected="false">
+                        <span class="fw-bold"><i class="feather icon-shield me-2 h5"></i>Change Password</span>
+                        <span class="float-end"><i class="feather icon-chevron-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="tab-content bg-transparent p-0 shadow-none" id="user-set-tabContent">
+                <div class="tab-pane fade show active" id="user-set-profile" role="tabpanel"
+                    aria-labelledby="user-set-profile-tab">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5><i class="feather icon-user text-primary me-2"></i><span class="p-l-5">About me</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ request.user.profile.bio.html|safe }}</p>
+                            <h5 class="mt-5 mb-3">Personal Details</h5>
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">Full Name</td>
+                                        <td>:</td>
+                                        <td>{{ request.user.profile.full_name|default_if_none:"" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Address</td>
+                                        <td>:</td>
+                                        <td>{{ request.user.profile.address|default_if_none:"" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Zip Code</td>
+                                        <td>:</td>
+                                        <td>{{ request.user.profile.zip_code|default_if_none:"" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Phone</td>
+                                        <td>:</td>
+                                        <td>{{ request.user.profile.phone|default_if_none:"" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Email</td>
+                                        <td>:</td>
+                                        <td>{{ request.user.email|default_if_none:"" }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="user-set-information" role="tabpanel"
+                    aria-labelledby="user-set-information-tab">
+                    <form method="post" action="" class="card">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h5><i class="feather icon-user text-primary me-2"></i><span class="p-l-5">Edit
+                                    Profile</span></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                        <input type="text" name="full_name" class="form-control border ps-2"
+                                            value="{{ request.user.profile.full_name|default_if_none:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Contact Phone</label>
+                                        <input type="text" name="phone" class="form-control border ps-2"
+                                            value="{{ request.user.profile.phone|default_if_none:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Email <span class="text-grey">(read
+                                                only)</span></label>
+                                        <input type="text" disabled class="form-control border ps-2" name="email"
+                                            value="{{ request.user.email }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" name="address" class="form-control border ps-2"
+                                            value="{{ request.user.profile.address|default_if_none:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">City <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border ps-2" name="city"
+                                            value="{{ request.user.profile.city|default_if_none:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Zip Code <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border ps-2" name="zip_code"
+                                            value="{{ request.user.profile.zip_code|default_if_none:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Country <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border ps-2" name="country"
+                                            value="{{ request.user.profile.country|default_if_none:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="bio" class="form-label">Bio</label>
+                                        {{ form.media }}
+                                        {{ form.bio }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="user-set-passwort" role="tabpanel"
+                    aria-labelledby="user-set-passwort-tab">
+                    <form method="post" action="{% url "change_password" %}" class="card">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h5><i data-feather="lock" class="icon-svg-primary wid-20"></i><span class="p-l-5">Change
+                                    Password</span></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Current Password <span
+                                                class="text-danger">*</span></label>
+                                        <input type="password" name="current_password" class="form-control border ps-2"
+                                            placeholder="Enter Your current password">
+                                        <small class="form-text text-muted">Forgot password? <a href="#!">Click
+                                                here</a></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">New Password <span
+                                                class="text-danger">*</span></label>
+                                        <input type="password" name="new_password" class="form-control border ps-2"
+                                            placeholder="Enter New password">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Confirm Password <span
+                                                class="text-danger">*</span></label>
+                                        <input type="password" name="confirm_new_password" class="form-control border ps-2"
+                                            placeholder="Enter your password again">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button type="submit" class="btn btn-danger">Change Password</button>
+                            <button type="button" class="btn btn-outline-dark ms-2">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- [ Main Content ] end -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+{% endblock content %}

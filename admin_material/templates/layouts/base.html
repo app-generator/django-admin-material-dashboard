@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "includes/head.html" %}
+    {% block extrastyle %}{% endblock extrastyle %}
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+
+  {% block sidebar %}
+    {% include "includes/sidebar.html" %}
+  {% endblock sidebar %}
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    {% block navigation %}
+      {% include "includes/navigation.html" %}
+    {% endblock navigation %}
+
+    {% block content %}{% endblock content %}
+  </main>
+  
+  {% block configurator %}
+    {% include "includes/configurator.html" %}
+  {% endblock configurator %}
+
+  {% include "includes/scripts.html" %}
+
+  {% block extra_js %}{% endblock extra_js %}
+
+</body>
+
+</html>
