@@ -6,11 +6,11 @@ from django.utils.translation import gettext_lazy as _
 class RegistrationForm(UserCreationForm):
   password1 = forms.CharField(
       label=_("Password"),
-      widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+      widget=forms.PasswordInput(attrs={'class': 'form-control'}),
   )
   password2 = forms.CharField(
       label=_("Password Confirmation"),
-      widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+      widget=forms.PasswordInput(attrs={'class': 'form-control'}),
   )
 
   class Meta:
@@ -19,19 +19,19 @@ class RegistrationForm(UserCreationForm):
 
     widgets = {
       'username': forms.TextInput(attrs={
-          'class': 'form-control', 'placeholder': 'Username'
+          'class': 'form-control'
       }),
       'email': forms.EmailInput(attrs={
-          'class': 'form-control', 'placeholder': 'Email'
+          'class': 'form-control'
       })
     }
 
 class LoginForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput(attrs={
-        'class': 'form-control', 'placeholder': 'Username'
+        'class': 'form-control'
     }))
     password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={
-        'class': 'form-control', 'placeholder': 'Password'
+        'class': 'form-control'
     }))
 
 
