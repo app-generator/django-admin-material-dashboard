@@ -29,7 +29,7 @@
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/js/all.min.js" crossorigin="anonymous"></script>
   <!-- Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <!-- CSS Files -->
@@ -109,8 +109,8 @@
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
-        <a class="btn btn-outline-dark mt-4 w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree" type="button">Documentation</a>
-        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+        <a class="btn btn-outline-dark mt-4 w-100" href="https://app-generator.dev/docs/products/django/material-dashboard/index.html" type="button">Documentation</a>
+        <a class="btn bg-gradient-dark w-100" href="https://app-generator.dev/product/material-dashboard/django/" type="button">Upgrade to PRO</a>
       </div>
     </div>
   </aside>
@@ -347,8 +347,8 @@
           </div>
         </div>
         <hr class="horizontal dark my-sm-4">
-        <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
-        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View documentation</a>
+        <a class="btn bg-gradient-info w-100" href="https://app-generator.dev/product/material-dashboard/django/">Download</a>
+        <a class="btn btn-outline-dark w-100" href="https://app-generator.dev/docs/products/django/material-dashboard/index.html">Documentation</a>
         <div class="w-100 text-center">
           <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
           <h6 class="mt-3">Thank you for sharing!</h6>
@@ -363,10 +363,10 @@
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="{% static "assets/js/core/popper.min.js" %}"></script>
+  <script src="{% static "assets/assets/js/core/bootstrap.min.js" %}"></script>
+  <script src="{% static "assets/js/plugins/perfect-scrollbar.min.js" %}"></script>
+  <script src="{% static "assets/js/plugins/smooth-scrollbar.min.js" %}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
