@@ -23,5 +23,23 @@ Modern template for **[Django Admin](https://app-generator.dev/docs/products/dja
 
 <br />
 
+## [Material Dashboard PRO](https://app-generator.dev/product/material-dashboard-pro/django/)
+
+> The **premium version** provides more features, priority on support, and is more often updated - [Live Demo](https://django-material-dash2-pro.onrender.com/).
+
+- **Simple, Easy-to-Extend** Codebase
+- **Material Dashboard PRO** Design - The premium version
+- Bootstrap 5 CSS
+- **OAuth** - Github
+- **Extended User Profile**
+- **API** via DRF 
+- **Charts** via ApexJS 
+- **Celery** (async tasks)
+- **Deployment-Ready** for Render 
+
+![Django Material Dashboard PRO - Premium starter powered by Django and Bootstrap 5 - actively supported provided by App-Generator.](https://github.com/user-attachments/assets/c75c6e67-a940-4d56-9855-070f901ab5ab)
+
+<br />
+
 ---
 **[Django Material Dashboard](https://app-generator.dev/docs/products/django-libs/theme-material-dashboard.html)** - Modern Django Admin Interface provided by **[App-Generator](https://app-generator.dev)**

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.0.15] 2024-12-02
+### Changes
+
+- UI Fixes
+- Curate Pages
+- Fix missing assets
+
 ## [1.0.14] 2024-11-21
 ### Changes
 
