@@ -50,6 +50,31 @@ def profile(request):
     return render(request, 'pages/profile.html', context)
 
 
+def map(request):
+    context = {
+        'segment': 'map'
+    }
+    return render(request, 'pages/map.html', context)
+
+def typography(request):
+    context = {
+        'segment': 'typography'
+    }
+    return render(request, 'pages/typography.html', context)
+
+def icons(request):
+    context = {
+        'segment': 'icons'
+    }
+    return render(request, 'pages/icons.html', context)
+
+def template(request):
+    context = {
+        'segment': 'template'
+    }
+    return render(request, 'pages/template.html', context)
+
+
 class UserLoginView(auth_views.LoginView):
   template_name = 'pages/sign-in.html'
   form_class = LoginForm
