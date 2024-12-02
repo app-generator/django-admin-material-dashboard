@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.14] 2024-11-21
+### Changes
+
+- Ui Fixes
+
 ## [1.0.13] 2024-11-15
 ### Changes
 
