@@ -11,6 +11,10 @@ urlpatterns = [
     path('rtl/', views.rtl, name="rtl"),
     path('notifications/', views.notifications, name="notifications"),
     path('profile/', views.profile, name="profile"),
+    path('map/', views.map, name="map"),
+    path('icons/', views.icons, name="icons"),
+    path('typography/', views.typography, name="typography"),
+    path('template/', views.template, name="template"),
 
     # Authentication
     path('accounts/register/', views.register, name='register'),

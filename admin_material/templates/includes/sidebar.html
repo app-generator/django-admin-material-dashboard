@@ -11,24 +11,6 @@
     <hr class="horizontal dark mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-
-        {% comment %} <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#apps" class="nav-link {% if 'apps' == parent %} active bg-gradient-dark text-white {% else %} text-dark {% endif %} " aria-controls="apps" role="button" aria-expanded="false">
-            <i class="material-symbols-rounded opacity-5">dashboard</i>
-            <span class="nav-link-text ms-2 ps-1">Apps</span>
-          </a>
-          <div class="collapse {% if 'apps' in parent %}show{% endif %}" id="apps">
-            <ul class="nav ">
-              <li class="nav-item">
-                <a class="nav-link {% if 'datatables_apps' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "datatables_apps" %}">
-                  <span class="sidenav-mini-icon"> DT </span>
-                  <span class="sidenav-normal  ms-2  ps-1"> Data Tables </span>
-                </a>
-              </li> 
-            </ul>
-          </div>
-        </li> {% endcomment %}
-
         {% admin_get_menu as app_list %}
         {% if app_list %}
           {% for app in app_list %}
@@ -95,6 +77,24 @@
           <a class="nav-link {% if 'notifications' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "notifications" %}">
             <i class="material-symbols-rounded opacity-5">notifications</i>
             <span class="nav-link-text ms-1">Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'map' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "map" %}">
+            <i class="material-symbols-rounded opacity-5">map</i>
+            <span class="nav-link-text ms-1">Map</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'icons' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "icons" %}">
+            <i class="material-symbols-rounded opacity-5">flag</i>
+            <span class="nav-link-text ms-1">Icons</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'typography' == segment %} active bg-gradient-dark text-white {% else %} text-dark {% endif %}" href="{% url "typography" %}">
+            <i class="material-symbols-rounded opacity-5">title</i>
+            <span class="nav-link-text ms-1">Typography</span>
           </a>
         </li>
         <li class="nav-item mt-3">
