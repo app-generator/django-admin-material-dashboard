@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.17] 2024-12-03
+### Changes
+
+- Fix Missing Assets
+- Fix Fonts
+
 ## [1.0.16] 2024-12-02
 ### Changes
 
