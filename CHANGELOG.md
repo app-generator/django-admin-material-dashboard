@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.18] 2024-12-03
+### Changes
+
+- Added Canonical
+
 ## [1.0.17] 2024-12-03
 ### Changes
 
