@@ -19,7 +19,7 @@ Modern template for **[Django Admin](https://app-generator.dev/docs/products/dja
   
 <br />
 
-![Django Material Dashboard - Modern template for Django Admin Section crafted on top of a modern Bootstrap Design.](https://github.com/user-attachments/assets/532e06c1-1af3-4439-93fc-6de3a9d43c52)
+![Django Material Dashboard - Open-Source Django Starter](https://github.com/user-attachments/assets/dba1a100-3309-400c-99bc-6ba707697509)
 
 <br />
 

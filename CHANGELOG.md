@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [1.0.20] 2024-12-03
+### Changes
+
+- Update label (minor)
+
+## [1.0.19] 2024-12-03
+### Changes
+
+- Update Media Files
+
 ## [1.0.18] 2024-12-03
 ### Changes
 
