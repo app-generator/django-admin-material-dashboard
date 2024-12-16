@@ -19,6 +19,22 @@ Modern template for **[Django Admin](https://app-generator.dev/docs/products/dja
   
 <br />
 
+### Build a Starter with [Django App Generator - Material Design](https://app-generator.dev/tools/django-generator/material/)
+
+- Access the [App Generator](https://app-generator.dev/tools/django-generator/) page
+- Select **Material Dashboard** as the preferred design
+- (Optional) Design Database: edit models and fields
+- (Optional) Edit the fields for the extended user model
+- (Optional) Enable OAuth for GitHub
+- (Optional) Add Celery (async tasks)
+- (Optional) Enable Dynamic API Module
+- Docker Scripts
+- Render CI/Cd Scripts
+
+**The generated Django project is available as a ZIP Archive and also uploaded to GitHub.**
+
+<br />
+
 ![Django Material Dashboard - Open-Source Django Starter](https://github.com/user-attachments/assets/dba1a100-3309-400c-99bc-6ba707697509)
 
 <br />

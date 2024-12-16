@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.21] 2024-12-16
+### Changes
+
+- Mention [Django App Generator - Material Design](https://app-generator.dev/tools/django-generator/material/)
+
 ## [1.0.20] 2024-12-03
 ### Changes
 
