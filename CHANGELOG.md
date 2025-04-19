@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.0.22] 2025-04-19
+### Changes
+
+- Update RM (minor)
+
 ## [1.0.21] 2024-12-16
 ### Changes
 
